@@ -9,23 +9,22 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        Function1D f = FileLoader.loadTableFunction("C:\\Users\\ilja5\\IdeaProjects\\FunctionDifferentiation\\data.txt");
+        FileLoader fileLoader = new FileLoader();
+        FileWriterUtil fileWriter = new FileWriterUtil();
+        Differentiator differentiator = new Differentiator(1e-5);
 
-        double h = 1e-5;
+        FunctionProcessor processor = new FunctionProcessor(differentiator, fileWriter);
 
-        StringBuilder sb = new StringBuilder();
+        Function1D function = fileLoader.loadTableFunction("data.txt");
 
-        for (double x = 1.5; x <= 6.5; x += 0.05) {
-            double y = f.value(x);
-            double dy = Differentiator.derivative(f, x, h);
+        processor.process(
+                function,
+                1.5,
+                6.5,
+                0.05,
+                "output_table_function.txt"
+        );
 
-            sb.append(x).append(" ")
-                    .append(y).append(" ")
-                    .append(dy).append("\n");
-        }
-
-        FileWriterUtil.write("output_table_function.txt", sb.toString());
-
-        System.out.println("Done! Results saved to output_table_function.txt");
+        System.out.println("Done! Refactored version works.");
     }
 }

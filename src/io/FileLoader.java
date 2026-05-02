@@ -9,15 +9,11 @@ import java.util.Scanner;
 
 public class FileLoader {
 
-    public static TableFunction loadTableFunction(String filename) throws Exception {
+    public TableFunction loadTableFunction(String filename) throws Exception {
         ArrayList<Double> xValues = new ArrayList<>();
         ArrayList<Double> yValues = new ArrayList<>();
 
-        File file = new File(filename);
-        System.out.println("Reading file: " + file.getAbsolutePath());
-        System.out.println("File exists: " + file.exists());
-
-        Scanner scanner = new Scanner(file);
+        Scanner scanner = new Scanner(new File(filename));
         scanner.useLocale(Locale.US);
 
         while (scanner.hasNextDouble()) {
@@ -29,8 +25,6 @@ public class FileLoader {
         }
 
         scanner.close();
-
-        System.out.println("Loaded points: " + xValues.size());
 
         return new TableFunction(xValues, yValues);
     }
